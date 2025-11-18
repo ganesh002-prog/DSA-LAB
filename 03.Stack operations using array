@@ -1,0 +1,120 @@
+ Aim:To implement a program that performs basic stack operations such as push, pop and peek
+demonstrating the use of the stack data structure using an array 
+
+#include <stdio.h>
+
+int TOP = -1, MAX;
+
+void push(int stack[]) {
+    int value;
+    if (TOP == MAX - 1) {
+        printf("Stack Overflow! Cannot push.\n");
+    } else {
+        printf("Enter value to push: ");
+        scanf("%d", &value);
+        TOP++;
+        stack[TOP] = value;
+        printf("Pushed %d\n", value);
+    }
+}
+
+void pop(int stack[]) {
+    if (TOP == -1) {
+        printf("Stack Underflow! Nothing to pop.\n");
+    } else {
+        printf("Popped element: %d\n", stack[TOP]);
+        TOP--;
+    }
+}
+
+void peek(int stack[]) {
+    if (TOP == -1) {
+        printf("Stack is empty.\n");
+    } else {
+        printf("Top element is: %d\n", stack[TOP]);
+    }
+}
+
+void display(int stack[]) {
+    if (TOP == -1) {
+        printf("Stack is empty.\n");
+    } else {
+        printf("Current stack elements:\n");
+        for (int i = TOP; i >= 0; i--) {
+            printf("%d ", stack[i]);
+        }
+        printf("(TOP)\n");
+    }
+}
+
+int main() {
+    int operation = 0;
+
+    printf("Enter the size of stack: ");
+    scanf("%d", &MAX);
+
+    int STACK[MAX];
+
+    while (operation != 4) {
+        printf("\n1. Push\n2. Pop\n3. Peek\n4. Exit\n");
+        printf("Choose operation: ");
+        scanf("%d", &operation);
+
+        switch (operation) {
+            case 1:
+                push(STACK);
+                display(STACK);
+                break;
+
+            case 2:
+                pop(STACK);
+                display(STACK);
+                break;
+
+            case 3:
+                peek(STACK);
+                break;
+
+            case 4:
+                return 0;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+
+    return 0;
+}
+
+output:
+Enter the size of stack: 3
+
+1. Push
+2. Pop
+3. Peek
+4. Exit
+Choose operation: 1
+Enter value to push: 10
+Pushed 10
+Current stack elements:
+10 (TOP)
+
+Choose operation: 1
+Enter value to push: 20
+Pushed 20
+Current stack elements:
+20 10 (TOP)
+
+Choose operation: 3
+Top element is: 20
+
+Choose operation: 2
+Popped element: 20
+Current stack elements:
+10 (TOP)
+
+Choose operation: 4
+
+result:
+The program successfully implements the stack data structure 
+using an array and performs the operations push, pop, peek, and display.
