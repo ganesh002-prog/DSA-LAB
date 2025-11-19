@@ -4,58 +4,85 @@ To reverse a given string using stack data structure.
 
 Code:
 
-#include<stdio.h>
-#include<stdlib.h>
-int top=-1,max;
-char *stack;
-void push (char item)
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int top = -1;
+int max = 0;
+char *stack = NULL;
+
+void push(char item)
 {
-    if(top==max-1)
-    {
-    printf("stack is over flow");
+    if (top == max - 1) {
+        printf("stack overflow\n");
+    } else {
+        stack[++top] = item;
+    }
 }
-else
+
+char pop(void)
 {
-    top=top+1;
-    stack[top]=item;
+    if (top == -1) {
+        printf("stack underflow\n");
+        return '\0';
+    } else {
+        return stack[top--];
+    }
 }
-}
-char pop()
+
+void stringreversal(void)
 {
-    char item;
-    if(top==-1)
-    {printf("stack is under flow");
-    return '\0';
+    char *input = malloc((size_t)max + 1);
+    if (!input) return;
+
+    printf("Please enter a string (max %d chars): ", max);
+    if (fgets(input, max + 1, stdin) == NULL) {
+        free(input);
+        return;
     }
-    else{
-        item=stack[top];
-        top=top-1;
-        return item;
+
+    size_t len = strlen(input);
+    if (len > 0 && input[len - 1] == '\n') {
+        input[len - 1] = '\0';
+        --len;
     }
+
+    for (size_t i = 0; i < len; ++i) {
+        push(input[i]);
     }
-    void stringreversal()
-    {
-        char string[max];
-        printf("please enter the string of size %d to reverse :",max);
-        scanf("%s",string);
-        for(int c=0;c<max;c++)
-        {
-            push(string[c]);
-        }
-        printf("reversed string:");
-        for (int c=0;c<max;c++)
-        {
-            printf("%c",pop());
-        }
-        }
-        int main()
-        {
-            printf("enter the size of char stack:");
-            scanf("%d",&max);
-            stack=realloc(stack,max);
-            stringreversal();
-            return 0;
-        }
+
+    printf("Reversed string: ");
+    for (size_t i = 0; i < len; ++i) {
+        char c = pop();
+        if (c != '\0') putchar(c);
+    }
+    putchar('\n');
+
+    free(input);
+}
+
+int main(void)
+{
+    printf("Enter the maximum size of the char stack: ");
+    if (scanf("%d", &max) != 1 || max <= 0) {
+        return 1;
+    }
+
+    int ch;
+    while ((ch = getchar()) != '\n' && ch != EOF) {}
+
+    stack = malloc((size_t)max * sizeof *stack);
+    if (!stack) {
+        return 1;
+    }
+
+    stringreversal();
+
+    free(stack);
+    stack = NULL;
+    return 0;
+}
 
 output:
 Enter the size of char stack: 20
