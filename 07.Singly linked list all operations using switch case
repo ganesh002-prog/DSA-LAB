@@ -12,76 +12,91 @@ Displaying the linked list
 struct Node {
     int data;
     struct Node* next;
- 
+};
+
 void insertAtBeginning(struct Node** head, int value) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (!newNode) return;
     newNode->data = value;
     newNode->next = *head;
     *head = newNode;
 }
- 
+
 void insertAtEnd(struct Node** head, int value) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (!newNode) return;
     newNode->data = value;
     newNode->next = NULL;
- 
+
     if (*head == NULL) {
         *head = newNode;
         return;
     }
- 
+
     struct Node* temp = *head;
     while (temp->next != NULL) {
         temp = temp->next;
     }
     temp->next = newNode;
 }
- 
+
 void insertAtPosition(struct Node** head, int value, int pos) {
+    if (pos <= 0) return;
+
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (!newNode) return;
     newNode->data = value;
     newNode->next = NULL;
- 
+
     if (pos == 1) {
         newNode->next = *head;
         *head = newNode;
         return;
     }
- 
+
     struct Node* temp = *head;
     int k = 1;
     while (temp != NULL && k < pos - 1) {
         temp = temp->next;
         k++;
     }
- 
+
     if (temp == NULL) {
-        printf("Position out of range\n");
         free(newNode);
         return;
     }
- 
+
     newNode->next = temp->next;
     temp->next = newNode;
 }
- 
+
 void printList(struct Node* head) {
-    printf("List: ");
     if (head == NULL) {
-        printf("Empty\n");
+        printf("List: Empty\n");
         return;
     }
+    printf("List: ");
     while (head != NULL) {
         printf("%d -> ", head->data);
         head = head->next;
     }
     printf("NULL\n");
 }
- 
+
+void freeList(struct Node** head) {
+    struct Node* current = *head;
+    while (current != NULL) {
+        struct Node* next = current->next;
+        free(current);
+        current = next;
+    }
+    *head = NULL;
+}
+
 int main() {
     struct Node* head = NULL;
     int choice, value, position;
- 
+
     while (1) {
         printf("\n--- Linked List Menu ---\n");
         printf("1. Insert at Beginning\n");
@@ -90,44 +105,45 @@ int main() {
         printf("4. Display List\n");
         printf("5. Exit\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
- 
+        
+        if (scanf("%d", &choice) != 1) break;
+
         switch (choice) {
             case 1:
                 printf("Enter value to insert at beginning: ");
-                scanf("%d", &value);
-                insertAtBeginning(&head, value);
+                if (scanf("%d", &value) == 1) insertAtBeginning(&head, value);
                 break;
- 
+
             case 2:
                 printf("Enter value to insert at end: ");
-                scanf("%d", &value);
-                insertAtEnd(&head, value);
+                if (scanf("%d", &value) == 1) insertAtEnd(&head, value);
                 break;
- 
+
             case 3:
                 printf("Enter value: ");
-                scanf("%d", &value);
+                if (scanf("%d", &value) != 1) break;
                 printf("Enter position: ");
-                scanf("%d", &position);
-                insertAtPosition(&head, value, position);
+                if (scanf("%d", &position) == 1) insertAtPosition(&head, value, position);
                 break;
- 
+
             case 4:
                 printList(head);
                 break;
- 
+
             case 5:
+                freeList(&head);
                 printf("Exiting...\n");
-                exit(0);
- 
+                return 0;
+
             default:
                 printf("Invalid choice. Try again.\n");
         }
     }
- 
+
+    freeList(&head);
     return 0;
 }
+c
 output:
 --- Linked List Menu ---
 1. Insert at Beginning
