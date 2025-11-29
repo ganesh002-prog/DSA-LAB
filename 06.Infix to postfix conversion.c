@@ -1,8 +1,8 @@
 Aim:
-To convert an infix expression to postfix expression using stack operation.
+To write a C program that converts an infix expression (like A+B*C) into a postfix expression (like ABC*+) using a stack. 
+This program should follow operator precedence and use stack operations for the conversion.
 
-Code:
-
+Program:
 #include <stdio.h>
 #include <ctype.h>
 
@@ -17,32 +17,29 @@ char pop() {
     return stack[top--];
 }
 
-int prec(char c) {
+int precedence(char c) {
     if (c == '^') return 3;
     if (c == '*' || c == '/') return 2;
     if (c == '+' || c == '-') return 1;
     return 0;
 }
 
-void infixtopostfix(char infix[]) {
-    char postfix[20], ch;
+void infixToPostfix(char infix[]) {
+    char postfix[20];
     int i = 0, k = 0;
+    char ch;
 
     while ((ch = infix[i++]) != '\0') {
         if (isalnum(ch)) {
             postfix[k++] = ch;
-        }
-        else if (ch == '(') {
+        } else if (ch == '(') {
             push(ch);
-        }
-        
-        else if (ch == ')') {
+        } else if (ch == ')') {
             while (top != -1 && stack[top] != '(')
                 postfix[k++] = pop();
-            if (top != -1) pop(); // pop '('
-        }
-        else {
-            while (top != -1 && prec(stack[top]) >= prec(ch))
+            if (top != -1) pop();
+        } else {
+            while (top != -1 && precedence(stack[top]) >= precedence(ch))
                 postfix[k++] = pop();
             push(ch);
         }
@@ -59,18 +56,15 @@ int main() {
     char infix[20];
     printf("Enter infix expression: ");
     scanf("%s", infix);
-    infixtopostfix(infix);
+    infixToPostfix(infix);
     return 0;
 }
 
-output:
-Input:
-Enter infix expression: A+B*C
 
-Output:
+sample output:
+Enter infix expression: A+B*C
 Postfix expression: ABC*+
 
-result:
-The program successfully converts a given infix expression into its equivalent also shows how infix to postfix works.
 
-postfix expression using stack operations and precedence rules.
+Result:
+The program successfully converts a given infix expression into its equivalent also shows how infix to postfix works.
