@@ -1,8 +1,6 @@
-aim:
-To write a C program to perform all operations on a Doubly Linked List, including insertion 
-(beginning, position, end), deletion (beginning, position, end, by value), searching, and
-is playing the list in forward and backward directions.
-
+Aim:
+To write a C program to create a doubly linked list and perform all basic operations like inserting a node (at beginning, end, or any position),
+ deleting a node (from beginning, end, by value, or at any position), searching for a value, and displaying the list in both forward and backward directions.
 
 Program:
 #include <stdio.h>
@@ -16,7 +14,7 @@ struct Node {
 
 struct Node* head = NULL;
 
-struct Node* CreateNode(int value) {
+struct Node* createNode(int value) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = value;
     newNode->next = NULL;
@@ -24,8 +22,8 @@ struct Node* CreateNode(int value) {
     return newNode;
 }
 
-void InsertAtBeginning(int value) {
-    struct Node* newNode = CreateNode(value);
+void insertAtBeginning(int value) {
+    struct Node* newNode = createNode(value);
     if (head == NULL) {
         head = newNode;
     } else {
@@ -36,10 +34,11 @@ void InsertAtBeginning(int value) {
     printf("%d inserted at beginning.\n", value);
 }
 
-void InsertAtEnd(int value) {
-    struct Node* newNode = CreateNode(value);
+void insertAtEnd(int value) {
+    struct Node* newNode = createNode(value);
     if (head == NULL) {
         head = newNode;
+        printf("%d inserted at end.\n", value);
         return;
     }
     struct Node* temp = head;
@@ -50,22 +49,22 @@ void InsertAtEnd(int value) {
     printf("%d inserted at end.\n", value);
 }
 
-void InsertAtPosition(int value, int pos) {
+void insertAtPosition(int value, int pos) {
     if (pos == 1) {
-        InsertAtBeginning(value);
+        insertAtBeginning(value);
         return;
     }
     struct Node* temp = head;
-    int k = 1;
-    while (temp != NULL && k < pos - 1) {
+    int i = 1;
+    while (temp != NULL && i < pos - 1) {
         temp = temp->next;
-        k++;
+        i++;
     }
     if (temp == NULL) {
         printf("Position out of range.\n");
         return;
     }
-    struct Node* newNode = CreateNode(value);
+    struct Node* newNode = createNode(value);
     newNode->next = temp->next;
     newNode->prev = temp;
     if (temp->next != NULL)
@@ -74,7 +73,7 @@ void InsertAtPosition(int value, int pos) {
     printf("%d inserted at position %d.\n", value, pos);
 }
 
-void DeleteAtBeginning() {
+void deleteAtBeginning() {
     if (head == NULL) {
         printf("List is empty.\n");
         return;
@@ -87,7 +86,7 @@ void DeleteAtBeginning() {
     free(temp);
 }
 
-void DeleteAtEnd() {
+void deleteAtEnd() {
     if (head == NULL) {
         printf("List is empty.\n");
         return;
@@ -103,7 +102,7 @@ void DeleteAtEnd() {
     free(temp);
 }
 
-void DeleteByValue(int value) {
+void deleteByValue(int value) {
     if (head == NULL) {
         printf("List is empty.\n");
         return;
@@ -112,7 +111,7 @@ void DeleteByValue(int value) {
     while (temp != NULL && temp->data != value)
         temp = temp->next;
     if (temp == NULL) {
-        printf("%d not found.\n", value);
+        printf("%d not found in list.\n", value);
         return;
     }
     if (temp->prev != NULL)
@@ -121,20 +120,20 @@ void DeleteByValue(int value) {
         head = temp->next;
     if (temp->next != NULL)
         temp->next->prev = temp->prev;
-    printf("%d deleted.\n", value);
+    printf("%d deleted from list.\n", value);
     free(temp);
 }
 
-void DeleteAtPosition(int pos) {
+void deleteAtPosition(int pos) {
     if (head == NULL) {
         printf("List is empty.\n");
         return;
     }
     struct Node* temp = head;
-    int k = 1;
-    while (temp != NULL && k < pos) {
+    int i = 1;
+    while (temp != NULL && i < pos) {
         temp = temp->next;
-        k++;
+        i++;
     }
     if (temp == NULL) {
         printf("Position out of range.\n");
@@ -150,7 +149,7 @@ void DeleteAtPosition(int pos) {
     free(temp);
 }
 
-void Search(int value) {
+void search(int value) {
     struct Node* temp = head;
     int pos = 1;
     while (temp != NULL) {
@@ -164,7 +163,7 @@ void Search(int value) {
     printf("%d not found in list.\n", value);
 }
 
-void Display() {
+void display() {
     if (head == NULL) {
         printf("List is empty.\n");
         return;
@@ -185,94 +184,60 @@ void Display() {
 }
 
 int main() {
-    int ch, val, pos;
+    int choice, value, position;
     while (1) {
         printf("\n--- DOUBLY LINKED LIST MENU ---\n");
         printf("1. Insert at Beginning\n2. Insert at Position\n3. Insert at End\n");
         printf("4. Delete at Beginning\n5. Delete by Value\n6. Delete at Position\n");
         printf("7. Delete at End\n8. Search\n9. Display\n10. Exit\n");
-        printf("Enter choice: ");
-        scanf("%d", &ch);
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
 
-        switch (ch) {
+        switch (choice) {
             case 1:
-                scanf("%d", &val);
-                InsertAtBeginning(val);
+                scanf("%d", &value);
+                insertAtBeginning(value);
                 break;
             case 2:
-                scanf("%d", &val);
-                scanf("%d", &pos);
-                InsertAtPosition(val, pos);
+                scanf("%d %d", &value, &position);
+                insertAtPosition(value, position);
                 break;
             case 3:
-                scanf("%d", &val);
-                InsertAtEnd(val);
+                scanf("%d", &value);
+                insertAtEnd(value);
                 break;
             case 4:
-                DeleteAtBeginning();
+                deleteAtBeginning();
                 break;
             case 5:
-                scanf("%d", &val);
-                DeleteByValue(val);
+                scanf("%d", &value);
+                deleteByValue(value);
                 break;
             case 6:
-                scanf("%d", &pos);
-                DeleteAtPosition(pos);
+                scanf("%d", &position);
+                deleteAtPosition(position);
                 break;
             case 7:
-                DeleteAtEnd();
+                deleteAtEnd();
                 break;
             case 8:
-                scanf("%d", &val);
-                Search(val);
+                scanf("%d", &value);
+                search(value);
                 break;
             case 9:
-                Display();
+                display();
                 break;
             case 10:
                 exit(0);
             default:
-                printf("Invalid choice\n");
+                printf("Invalid choice! Try again.\n");
         }
     }
+    return 0;
 }
 
-output:
-Enter your choice: 1
-Enter value to insert: 10
-10 enqueued
+Result:
+The program efficiently performs all operations on a doubly linked list.
+including inserting nodes, deleting nodes, searching for values, and displaying the list in both forward and backward directions.
+ using a single consolidated program as outlined in the provided algorithms.
 
-Enter your choice: 1
-Enter value to insert: 20
-20 enqueued
-
-Enter your choice: 1
-Enter value to insert: 30
-30 enqueued
-
-Enter your choice: 3
-Queue elements: 10 20 30
-
-Enter your choice: 2
-Dequeued: 10
-
-Enter your choice: 3
-Queue elements: 20 30
-
-Enter your choice: 2
-Dequeued: 20
-
-Enter your choice: 2
-Dequeued: 30
-
-Enter your choice: 2
-Queue Underflow
-
-Enter your choice: 3
-Queue is empty
-
-
-
-result:
-The program successfully implements all doubly linked list operations including insertion, deletion, search, and 
-bidirectional traversal using a single unified program exactly as per the given PPT algorithms.
