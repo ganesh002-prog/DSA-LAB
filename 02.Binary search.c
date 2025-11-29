@@ -1,59 +1,56 @@
-Aim: To implement a program in C that locates a specific element in a sorted array efficiently using binary search.
+AIM:
+To write a C program that searches for a given number in a sorted list using the binary search technique and displays whether the number is present or not.
 
+Program:
+#include <stdio.h>
 
-#include<stdio.h>
-int main()
-{
-    int i,n,key;
-    printf("enter the number of elements n: \n");
+int main() {
+    int n, key, low, high, mid;
+
+    printf("Enter how many numbers you want: ");
     scanf("%d", &n);
-    
-    int array[n];
-    printf("enter the elements: \n");
-    for(i = 0; i < n; i++)
-    {
-        scanf("%d", &array[i]);
-    }
 
-    printf("enter the key \n");
-    scanf("%d",&key);
-    int mid,start=0,end=n-1;
-    
-    while(start<=end)
-    {
-        mid = (start+end)/2;
-        printf("\nmid-%d, Key-%d", mid, key);
-        if(array[mid]==key)
-        {
-            printf("found at position %d", mid+1);
+    int arr[n];
+    printf("Enter the %d numbers in sorted order:\n", n);
+    for(int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+    printf("Enter the number you want to find: ");
+    scanf("%d", &key);
+
+    low = 0;
+    high = n - 1;
+    int found = 0;
+
+    while(low <= high) {
+        mid = (low + high) / 2;
+
+        if(arr[mid] == key) {
+            printf("The number %d is found at index %d\n", key, mid);
+            found = 1;
             break;
         }
-        if(array[mid]<key)
-        {
-            start = mid + 1;
+        else if(arr[mid] < key) {
+            low = mid + 1;
         }
-        else
-        {
-            end = mid - 1;
+        else {
+            high = mid - 1;
         }
     }
-    if(start>end)
-    {
-        printf("not found");
+
+    if(found == 0) {
+        printf("The number is not present in the list.\n");
     }
+
+    return 0;
 }
 
-
-
 OUTPUT:
-Enter the number of elements: 5
-Enter 5 sorted elements:
-1 3 5 7 9
-Enter the key to search: 7
+Enter how many numbers you want: 5
+Enter the 5 numbers in sorted order:
+2 4 6 8 10
+Enter the number you want to find: 8
+The number 8 is found at index 3
 
-mid = 2, key = 7
-mid = 3, key = 7
-Found at position 4
-
-RESULT:
-Program sucessfully demonstrates linear search.
+RESULT
+The program successfully uses binary search to check whether a given number exists in a sorted array.
