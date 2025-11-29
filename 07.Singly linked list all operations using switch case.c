@@ -1,11 +1,8 @@
 Aim:
+To make a C program that can do basic operations on a singly linked list like adding elements at the beginning, 
+at the end, at any position, and showing the list.
 
-To implement a C program that performs all basic operations on a single linked list, including:
-Insertion at beginning
-Insertion at end
-Insertion at specific position
-Displaying the linked list
-
+Program:
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -14,7 +11,7 @@ struct Node {
     struct Node* next;
 };
 
-void insertAtBeginning(struct Node** head, int value) {
+void addAtBeginning(struct Node** head, int value) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     if (!newNode) return;
     newNode->data = value;
@@ -22,7 +19,7 @@ void insertAtBeginning(struct Node** head, int value) {
     *head = newNode;
 }
 
-void insertAtEnd(struct Node** head, int value) {
+void addAtEnd(struct Node** head, int value) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     if (!newNode) return;
     newNode->data = value;
@@ -40,7 +37,7 @@ void insertAtEnd(struct Node** head, int value) {
     temp->next = newNode;
 }
 
-void insertAtPosition(struct Node** head, int value, int pos) {
+void addAtPosition(struct Node** head, int value, int pos) {
     if (pos <= 0) return;
 
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
@@ -55,10 +52,8 @@ void insertAtPosition(struct Node** head, int value, int pos) {
     }
 
     struct Node* temp = *head;
-    int k = 1;
-    while (temp != NULL && k < pos - 1) {
+    for (int i = 1; i < pos - 1 && temp != NULL; i++) {
         temp = temp->next;
-        k++;
     }
 
     if (temp == NULL) {
@@ -70,9 +65,9 @@ void insertAtPosition(struct Node** head, int value, int pos) {
     temp->next = newNode;
 }
 
-void printList(struct Node* head) {
+void showList(struct Node* head) {
     if (head == NULL) {
-        printf("List: Empty\n");
+        printf("List is empty.\n");
         return;
     }
     printf("List: ");
@@ -84,13 +79,12 @@ void printList(struct Node* head) {
 }
 
 void freeList(struct Node** head) {
-    struct Node* current = *head;
-    while (current != NULL) {
-        struct Node* next = current->next;
-        free(current);
-        current = next;
+    struct Node* temp;
+    while (*head != NULL) {
+        temp = *head;
+        *head = (*head)->next;
+        free(temp);
     }
-    *head = NULL;
 }
 
 int main() {
@@ -99,35 +93,37 @@ int main() {
 
     while (1) {
         printf("\n--- Linked List Menu ---\n");
-        printf("1. Insert at Beginning\n");
-        printf("2. Insert at End\n");
-        printf("3. Insert at Specific Position\n");
-        printf("4. Display List\n");
+        printf("1. Add at Beginning\n");
+        printf("2. Add at End\n");
+        printf("3. Add at Position\n");
+        printf("4. Show List\n");
         printf("5. Exit\n");
-        printf("Enter your choice: ");
-        
-        if (scanf("%d", &choice) != 1) break;
+        printf("Enter choice: ");
+        scanf("%d", &choice);
 
         switch (choice) {
             case 1:
-                printf("Enter value to insert at beginning: ");
-                if (scanf("%d", &value) == 1) insertAtBeginning(&head, value);
+                printf("Enter value: ");
+                scanf("%d", &value);
+                addAtBeginning(&head, value);
                 break;
 
             case 2:
-                printf("Enter value to insert at end: ");
-                if (scanf("%d", &value) == 1) insertAtEnd(&head, value);
+                printf("Enter value: ");
+                scanf("%d", &value);
+                addAtEnd(&head, value);
                 break;
 
             case 3:
                 printf("Enter value: ");
-                if (scanf("%d", &value) != 1) break;
+                scanf("%d", &value);
                 printf("Enter position: ");
-                if (scanf("%d", &position) == 1) insertAtPosition(&head, value, position);
+                scanf("%d", &position);
+                addAtPosition(&head, value, position);
                 break;
 
             case 4:
-                printList(head);
+                showList(head);
                 break;
 
             case 5:
@@ -136,34 +132,33 @@ int main() {
                 return 0;
 
             default:
-                printf("Invalid choice. Try again.\n");
+                printf("Invalid choice!\n");
         }
     }
 
-    freeList(&head);
     return 0;
 }
-c
-output:
+
+OUTPUT:
 --- Linked List Menu ---
-1. Insert at Beginning
-2. Insert at End
-3. Insert at Specific Position
-4. Display List
+1. Add at Beginning
+2. Add at End
+3. Add at Position
+4. Show List
 5. Exit
-Enter your choice: 1
-Enter value to insert at beginning: 10
+Enter choice: 1
+Enter value: 10
 
-Enter your choice: 2
-Enter value to insert at end: 20
+Enter choice: 2
+Enter value: 20
 
-Enter your choice: 3
+Enter choice: 3
 Enter value: 15
 Enter position: 2
 
-Enter your choice: 4
+Enter choice: 4
 List: 10 -> 15 -> 20 -> NULL
 
-result:
-The program successfully performs all basic singly linked list operations, including
-insertion at beginning, insertion at end, insertion at specific position, and displaying the list.
+result: The program successfully performs all basic singly linked list operations,
+ including insertion at beginning, insertion at end, insertion at specific position, and displaying the list.
+
