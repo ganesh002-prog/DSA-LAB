@@ -1,53 +1,51 @@
-Aim:To write a program for an element in a sorted array using linear search techniques.
+Aim:
+To develop a program that performs a linear search on a sorted list of integers and determines whether a specified element is present in the list.
 
-
-#include <stdio.h>
+    #include <stdio.h>
 
 int main()
 {
     int n, key, i;
-    printf("Enter the number of elements required: ");
+
+    printf("Enter how many elements the array should contain: ");
     scanf("%d", &n);
 
-    int array[n];
-    printf("Enter the elements:\n");
+    int arr[n];
+
+    printf("Enter %d sorted integers:\n", n);
     for(i = 0; i < n; i++)
     {
-        scanf("%d", &array[i]);
+        scanf("%d", &arr[i]);
     }
 
-    printf("Enter the key to search for: ");
+    printf("Enter the value you want to search: ");
     scanf("%d", &key);
 
     for(i = 0; i < n; i++)
     {
-        
-        if(array[i] == key + 1)
+        if(arr[i] == key)
         {
-            printf("Element found at position %d\n", i);
+            printf("The element %d is found at index %d.\n", key, i);
             break;
         }
     }
 
     if(i == n)
     {
-        printf("Element not found\n");
+        printf("The element %d is not present in the array.\n", key);
     }
 
     return 0;
 }
 
 output:
-Enter the number of elements required: 5
-Enter the elements:
+Enter how many elements the array should contain: 5
+Enter 5 sorted integers:
 2
 4
 6
 8
 10
-Enter the key to search for: 6
-Element found at position 2
+Enter the value you want to search: 6
+The element 6 is found at index 2.
 
-Result: 
-        The program successfully searches for a given key element in a sorted array 
-using the linear search technique and displays whether the element is found or not.
