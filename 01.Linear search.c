@@ -48,4 +48,6 @@ Enter 5 sorted integers:
 10
 Enter the value you want to search: 6
 The element 6 is found at index 2.
-
+result:
+The program successfully implements linear search on a sorted array.
+ It checks each element sequentially and reports whether the desired value is found and at which postion
